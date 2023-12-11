@@ -9,6 +9,7 @@ class MyInputField extends StatelessWidget {
     this.initialValue,
     this.suffixIcon,
     this.onSuffixIconPressed,
+    this.validator,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class MyInputField extends StatelessWidget {
   final String? initialValue;
   final IconData? suffixIcon;
   final VoidCallback? onSuffixIconPressed;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class MyInputField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       cursorColor: AppThemeColors.generalBlackDisabled,
+      validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
         enabledBorder: const UnderlineInputBorder(

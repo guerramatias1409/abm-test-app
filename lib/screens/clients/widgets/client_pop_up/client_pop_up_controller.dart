@@ -15,6 +15,7 @@ class ClientPopUpController extends ChangeNotifierWithLoading {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   setData(ClientEntity? client) {
     error = null;
@@ -50,7 +51,10 @@ class ClientPopUpController extends ChangeNotifierWithLoading {
     emailController.text = selectedClient!.email;
   }
 
-  saveAction() => selectedClient != null ? editClient() : addNewClient();
+  saveAction() {
+    if (!validateControllers()) return;
+    selectedClient != null ? editClient() : addNewClient();
+  }
 
   addNewClient() async {
     actionSucceded = false;
@@ -99,5 +103,9 @@ class ClientPopUpController extends ChangeNotifierWithLoading {
     } catch (e) {
       setError("Error saving info. Please try again later...");
     }
+  }
+
+  bool validateControllers() {
+    return formKey.currentState?.validate() ?? false;
   }
 }

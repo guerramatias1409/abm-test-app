@@ -53,90 +53,107 @@ class _ClientPopUpState extends State<ClientPopUp> {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  controller.selectedClient != null
-                      ? ClientsStrings.editClient
-                      : ClientsStrings.addClient,
-                  style: AppThemeTexts.h6(
-                    color: AppThemeColors.generalBlackHighEmphasis,
-                  ),
-                ),
-                const SizedBox(height: 48),
-                Stack(
-                  alignment: AlignmentDirectional.center,
+            child: SingleChildScrollView(
+              child: Form(
+                key: controller.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    DottedBorder(
-                      borderType: BorderType.Circle,
-                      dashPattern: const [6, 6],
-                      strokeWidth: 1.5,
-                      color: AppThemeColors.maximumGreenYelow,
-                      child: const SizedBox(
-                        height: 119,
-                        width: 119,
+                    Text(
+                      controller.selectedClient != null
+                          ? ClientsStrings.editClient
+                          : ClientsStrings.addClient,
+                      style: AppThemeTexts.h6(
+                        color: AppThemeColors.generalBlackHighEmphasis,
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const SizedBox(height: 48),
+                    Stack(
+                      alignment: AlignmentDirectional.center,
                       children: [
-                        SvgPicture.asset(
-                          'assets/icons/fi-rr-mode-landscape.svg',
-                          height: 30,
-                          width: 30,
+                        DottedBorder(
+                          borderType: BorderType.Circle,
+                          dashPattern: const [6, 6],
+                          strokeWidth: 1.5,
+                          color: AppThemeColors.maximumGreenYelow,
+                          child: const SizedBox(
+                            height: 119,
+                            width: 119,
+                          ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          ClientsStrings.uploadImage,
-                          style: AppThemeTexts.body2(
-                            color: AppThemeColors.generalBlackDisabled,
-                          ).w400,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/fi-rr-mode-landscape.svg',
+                              height: 30,
+                              width: 30,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              ClientsStrings.uploadImage,
+                              style: AppThemeTexts.body2(
+                                color: AppThemeColors.generalBlackDisabled,
+                              ).w400,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    MyInputField(
+                      hintText: '${ClientsStrings.firstName}*',
+                      controller: controller.firstNameController,
+                      validator: (value) => ValidationHelper.validateEmpty(
+                        value,
+                        errorMessage: 'Please insert first name',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    MyInputField(
+                      hintText: '${ClientsStrings.lastName}*',
+                      controller: controller.lastNameController,
+                      validator: (value) => ValidationHelper.validateEmpty(
+                        value,
+                        errorMessage: 'Please insert last name',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    MyInputField(
+                      hintText: '${ClientsStrings.email}*',
+                      controller: controller.emailController,
+                      validator: (value) => ValidationHelper.validateEmpty(
+                        value,
+                        errorMessage: 'Please insert email',
+                      ),
+                    ),
+                    const SizedBox(height: 48),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MyTextButton(
+                          label: ClientsStrings.cancel,
+                          onPressed: widget.onCancel,
+                        ),
+                        const SizedBox(width: 18),
+                        Expanded(
+                          child: controller.error != null
+                              ? AppText.body2(
+                                  label: controller.error!,
+                                  textAlign: TextAlign.center,
+                                )
+                              : MyElevatedButton(
+                                  isLoading: controller.isLoading,
+                                  label: ClientsStrings.save.toUpperCase(),
+                                  onPressed: () => controller.saveAction(),
+                                ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 18),
-                MyInputField(
-                  hintText: '${ClientsStrings.firstName}*',
-                  controller: controller.firstNameController,
-                ),
-                const SizedBox(height: 12),
-                MyInputField(
-                  hintText: '${ClientsStrings.lastName}*',
-                  controller: controller.lastNameController,
-                ),
-                const SizedBox(height: 12),
-                MyInputField(
-                  hintText: '${ClientsStrings.email}*',
-                  controller: controller.emailController,
-                ),
-                const SizedBox(height: 48),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MyTextButton(
-                      label: ClientsStrings.cancel,
-                      onPressed: widget.onCancel,
-                    ),
-                    const SizedBox(width: 18),
-                    Expanded(
-                      child: controller.error != null
-                          ? AppText.body2(
-                              label: controller.error!,
-                              textAlign: TextAlign.center,
-                            )
-                          : MyElevatedButton(
-                              isLoading: controller.isLoading,
-                              label: ClientsStrings.save.toUpperCase(),
-                              onPressed: () => controller.saveAction(),
-                            ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         );

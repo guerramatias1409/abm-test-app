@@ -16,7 +16,7 @@ class ClientsPageBottomBar extends StatelessWidget {
         }
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.only(right: 32, left: 32, bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
